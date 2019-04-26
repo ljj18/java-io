@@ -4,10 +4,29 @@ import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousSocketChannel;
 import java.nio.channels.CompletionHandler;
 import java.util.concurrent.CountDownLatch;
+
+import com.ljj.io.IContext;
 public class WriteHandler implements CompletionHandler<Integer, ByteBuffer> {
+    /*
+     * 
+     */
+    private IContext context;
+    /*
+     * 
+     */
 	private AsynchronousSocketChannel clientChannel;
+	/*
+	 * 
+	 */
 	private CountDownLatch latch;
-	public WriteHandler(AsynchronousSocketChannel clientChannel,CountDownLatch latch) {
+	/**
+	 * 
+	 * @param context
+	 * @param clientChannel
+	 * @param latch
+	 */
+	public WriteHandler(IContext context, AsynchronousSocketChannel clientChannel,CountDownLatch latch) {
+	    this.context = context;
 		this.clientChannel = clientChannel;
 		this.latch = latch;
 	}

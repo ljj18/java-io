@@ -1,25 +1,35 @@
-package com.ljj.io.aio;
-import java.util.Scanner;
 
-import com.ljj.io.aio.client.Client;
+package com.ljj.io.aio;
+
+import com.ljj.io.AbstractIOTest;
+import com.ljj.io.aio.client.AIOClient;
 import com.ljj.io.aio.server.AIOServer;
+import com.ljj.io.utils.Const;
+
 /**
  * 测试方法
+ * 
  * @author yangtao__anxpp.com
  * @version 1.0
  */
-public class AIOTest {
-	//测试主方法
-	@SuppressWarnings("resource")
-	public static void main(String[] args) throws Exception{
-		//运行服务器
-		AIOServer.start();
-		//避免客户端先于服务器启动前执行代码
-		Thread.sleep(100);
-		//运行客户端 
-		Client.start();
-		System.out.println("请输入请求消息：");
-		Scanner scanner = new Scanner(System.in);
-		while(Client.sendMsg(scanner.nextLine()));
-	}
+public class AIOTest extends AbstractIOTest {
+    
+
+    @Override
+    public void startServer() {
+        server = new AIOServer(this, Const.DEFAULT_PORT);
+        server.start();   
+    }
+
+    @Override
+    public void startClient() {
+        client = new AIOClient(this, Const.DEFAULT_HOST, Const.DEFAULT_PORT);
+        client.start();
+    }
+    
+    public static void main(String[] args) throws Exception {
+        AIOTest aioTest = new AIOTest();
+        aioTest.start();
+    }
+
 }
