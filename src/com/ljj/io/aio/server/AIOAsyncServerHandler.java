@@ -2,6 +2,7 @@
 package com.ljj.io.aio.server;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousServerSocketChannel;
@@ -12,6 +13,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.ljj.io.IContext;
 import com.ljj.io.IOLifecycle;
+import com.ljj.io.utils.Calculator;
 
 public class AIOAsyncServerHandler
     implements CompletionHandler<AsynchronousSocketChannel, AIOAsyncServerHandler>, IOLifecycle, Runnable {
@@ -94,10 +96,55 @@ public class AIOAsyncServerHandler
         // 创建新的Buffer
         ByteBuffer buffer = ByteBuffer.allocate(1024);
         // 异步读 第三个参数为接收消息回调的业务Handler
-        socketChanner.read(buffer, buffer, new AIOReadHandler(context, socketChanner));
+        socketChanner.read(buffer, buffer, new CompletionHandler<Integer, ByteBuffer>(){
+            @Override
+            public void completed(Integer result, ByteBuffer attachment) {
+                attachment.flip();
+                byte[] message = new byte[attachment.remaining()];
+                attachment.get(message);
+                try {
+                    String msg = new String(message, "utf-8");
+                    context.getPrint().onPrintServer(msg);
+                    //
+                    doWrite(Calculator.Instance.cal(msg).toString());
 
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void failed(Throwable exc, ByteBuffer attachment) {
+                try {
+                    channel.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            
+            /**
+             * 
+             * @param result
+             */
+            private void doWrite(String result) {
+                byte[] bytes = result.getBytes();
+                ByteBuffer writeBuffer = ByteBuffer.allocate(bytes.length);
+                writeBuffer.put(bytes);
+                writeBuffer.flip();
+                socketChanner.write(writeBuffer, writeBuffer, new CompletionHandler<Integer, ByteBuffer>(){
+                    @Override
+                    public void completed(Integer result, ByteBuffer buffer) {
+                    }
+
+                    @Override
+                    public void failed(Throwable exc, ByteBuffer attachment) {
+                    }
+                });
+            }
+            
+        });
     }
-
+    
     @Override
     public void failed(Throwable exc, AIOAsyncServerHandler serverHandler) {
         exc.printStackTrace();
