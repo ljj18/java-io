@@ -6,7 +6,7 @@ import java.util.Random;
  * @author yangtao__anxpp.com
  * @version 1.0
  */
-public class Test {
+public class BIOTest {
 	//测试主方法
 	public static void main(String[] args) throws InterruptedException {
 		//运行服务器

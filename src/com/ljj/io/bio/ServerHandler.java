@@ -7,9 +7,9 @@ import java.net.Socket;
 
 import com.ljj.io.utils.Calculator;
 /**
- * �ͻ����߳�
- * @author yangtao__anxpp.com
- * ���ڴ���һ���ͻ��˵�Socket��·
+ *
+ * @author liangjinjing
+ * 
  */
 public class ServerHandler implements Runnable{
 	private Socket socket;

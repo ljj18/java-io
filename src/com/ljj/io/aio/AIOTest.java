@@ -1,11 +1,14 @@
-package com.ljj.io.nio;
+package com.ljj.io.aio;
 import java.util.Scanner;
+
+import com.ljj.io.aio.client.Client;
+import com.ljj.io.aio.server.Server;
 /**
  * 测试方法
  * @author yangtao__anxpp.com
  * @version 1.0
  */
-public class Test {
+public class AIOTest {
 	//测试主方法
 	@SuppressWarnings("resource")
 	public static void main(String[] args) throws Exception{
@@ -15,6 +18,8 @@ public class Test {
 		Thread.sleep(100);
 		//运行客户端 
 		Client.start();
-		while(Client.sendMsg(new Scanner(System.in).nextLine()));
+		System.out.println("请输入请求消息：");
+		Scanner scanner = new Scanner(System.in);
+		while(Client.sendMsg(scanner.nextLine()));
 	}
 }
