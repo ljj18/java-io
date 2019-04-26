@@ -10,23 +10,25 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import com.ljj.io.IContext;
 import com.ljj.io.IOLifecycle;
 
 /**
  * NIO客户端
  * 
- * @author yangtao__anxpp.com
+ * @author liangjinjing
  * @version 1.0
  */
 public class NIOClientHandle implements IOLifecycle, Runnable {
     /*
      * 
      */
-    private String host;
+    private int port;
     /*
      * 
      */
-    private int port;
+    private String host;
+
     /*
      * 
      */
@@ -48,13 +50,18 @@ public class NIOClientHandle implements IOLifecycle, Runnable {
      * 
      */
     private NIOReadWriteHandle rwHandle;
+    /*
+     * 
+     */
+    private IContext context;
 
     /**
      * 
      * @param ip
      * @param port
      */
-    public NIOClientHandle(String ip, int port) {
+    public NIOClientHandle(IContext context, String ip, int port) {
+        this.context = context;
         this.host = ip;
         this.port = port;
         try {
@@ -102,6 +109,7 @@ public class NIOClientHandle implements IOLifecycle, Runnable {
                 SelectionKey key = null;
                 while (it.hasNext()) {
                     key = it.next();
+                    it.remove();
                     // 读数据
                     try {
                         handleInput(key);
@@ -150,7 +158,7 @@ public class NIOClientHandle implements IOLifecycle, Runnable {
             SocketChannel sc = (SocketChannel)key.channel();
             if (key.isConnectable()) {
                 if (!sc.finishConnect()) {
-                    System.out.println("连接没有完成.......");
+                    System.out.println("连接不成功.......");
                 }
             }
             // 读消息
@@ -172,11 +180,7 @@ public class NIOClientHandle implements IOLifecycle, Runnable {
      * @throws IOException
      */
     private void processData(byte[] b) throws IOException {
-        String str = "没有读到数据";
-        if (b != null) {
-            str = "计算结果：".concat(new String(b, "utf-8"));
-        }
-        System.out.println(str);
+        context.getPrint().onPrintClient(new String(b, "utf-8"));
     }
 
     /**
@@ -184,10 +188,15 @@ public class NIOClientHandle implements IOLifecycle, Runnable {
      * @param msg
      * @throws Exception
      */
-    public void sendMsg(String msg) throws Exception {
+    public void sendMsg(String msg) {
         if (isRuuning.get()) {
-            socketChannel.register(selector, SelectionKey.OP_READ);
-            rwHandle.write(socketChannel, msg);
+            try {
+                socketChannel.register(selector, SelectionKey.OP_READ);
+                rwHandle.write(socketChannel, msg);
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
+
         }
     }
 }

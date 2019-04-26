@@ -7,8 +7,8 @@ public class AcceptHandler implements CompletionHandler<AsynchronousSocketChanne
 	@Override
 	public void completed(AsynchronousSocketChannel channel,AsyncServerHandler serverHandler) {
 		//继续接受其他客户端的请求
-		Server.clientCount++;
-		System.out.println("连接的客户端数：" + Server.clientCount);
+		AIOServer.clientCount++;
+		System.out.println("连接的客户端数：" + AIOServer.clientCount);
 		serverHandler.channel.accept(serverHandler, this);
 		//创建新的Buffer
 		ByteBuffer buffer = ByteBuffer.allocate(1024);

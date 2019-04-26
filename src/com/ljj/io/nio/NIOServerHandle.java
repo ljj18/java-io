@@ -11,13 +11,14 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import com.ljj.io.IContext;
 import com.ljj.io.IOLifecycle;
 import com.ljj.io.utils.Calculator;
 
 /**
  * NIO
  * 
- * @author yangtao__anxpp.com
+ * @author liangjinjing
  * @version 1.0
  */
 public class NIOServerHandle implements IOLifecycle, Runnable {
@@ -33,7 +34,7 @@ public class NIOServerHandle implements IOLifecycle, Runnable {
      * 
      */
     private AtomicBoolean isRunning = new AtomicBoolean(false);
-    /**
+    /*
      * 
      */
     private AtomicBoolean isStopFinish= new AtomicBoolean(false);
@@ -41,13 +42,19 @@ public class NIOServerHandle implements IOLifecycle, Runnable {
      * 
      */
     private NIOReadWriteHandle rwHandle;
+    
+    /*
+     * 
+     */
+    private IContext context;
 
     /**
      * 
      * @param port
      */
-    public NIOServerHandle(int port) {
+    public NIOServerHandle(IContext context, int port) {
         try {
+            this.context = context;
             selector = Selector.open();
             serverChannel = ServerSocketChannel.open();
             serverChannel.configureBlocking(false);
@@ -151,14 +158,8 @@ public class NIOServerHandle implements IOLifecycle, Runnable {
      * @throws IOException
      */
     private String processData(byte[] b) throws IOException {
-        String result = "";
-        String expression = new String(b, "utf-8");
-        System.out.println("表达式: " + expression);
-        try {
-            result = Calculator.Instance.cal(expression).toString();
-        } catch (Exception e) {
-            result = expression.concat(": 表达式不正确");
-        }
-        return result;
+        String msg = new String(b, "utf-8");
+        context.getPrint().onPrintServer(msg);
+        return Calculator.Instance.cal(msg).toString();
     }
 }

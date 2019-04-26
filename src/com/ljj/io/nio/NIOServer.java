@@ -3,7 +3,10 @@ package com.ljj.io.nio;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class NIOServer {
+import com.ljj.io.IContext;
+import com.ljj.io.IServer;
+
+public class NIOServer implements IServer {
 
     private AtomicBoolean isRunning = new AtomicBoolean();
     
@@ -16,31 +19,41 @@ public class NIOServer {
      * 
      */
     private NIOServerHandle nioServerHandle;
+    /*
+     * 
+     */
+    private IContext context;
     
     /**
      * 
      * @param port
      */
-    public NIOServer(int port) {
+    public NIOServer(IContext context, int port) {
+        this.context = context;
         this.port = port;
     }
-    
-    public void stop() {
-        if (nioServerHandle != null) {
-            nioServerHandle.stop();
-            nioServerHandle = null;
-        }
-        isRunning.set(false);
-    }
-    
+
     /**
      * 启动NIO 服务端
      * @param port
      */
     public void start() {        
         if (isRunning.compareAndSet(false, true)) {
-            nioServerHandle = new NIOServerHandle(port);
+            nioServerHandle = new NIOServerHandle(context, port);
             new Thread(nioServerHandle, "NIO Server").start();
         }
     }
+    
+    /**
+     *
+     */
+    public void stop() {
+        if (nioServerHandle != null) {
+            nioServerHandle.stop();
+            nioServerHandle = null;
+        }
+        context = null;
+        isRunning.set(false);
+    }
+    
 }

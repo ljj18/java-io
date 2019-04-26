@@ -2,7 +2,7 @@ package com.ljj.io.aio;
 import java.util.Scanner;
 
 import com.ljj.io.aio.client.Client;
-import com.ljj.io.aio.server.Server;
+import com.ljj.io.aio.server.AIOServer;
 /**
  * 测试方法
  * @author yangtao__anxpp.com
@@ -13,7 +13,7 @@ public class AIOTest {
 	@SuppressWarnings("resource")
 	public static void main(String[] args) throws Exception{
 		//运行服务器
-		Server.start();
+		AIOServer.start();
 		//避免客户端先于服务器启动前执行代码
 		Thread.sleep(100);
 		//运行客户端 

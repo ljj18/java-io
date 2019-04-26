@@ -3,10 +3,19 @@ package com.ljj.io.nio;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import com.ljj.io.IOLifecycle;
+import com.ljj.io.IClient;
+import com.ljj.io.IContext;
 
-public class NIOClient implements IOLifecycle {
+public class NIOClient implements IClient {
 
+    /*
+     * 
+     */
+    private int port;
+    /*
+     * 
+     */
+    private String host;
     /*
      * 
      */
@@ -20,18 +29,15 @@ public class NIOClient implements IOLifecycle {
     /*
      * 
      */
-    private String host;
-    /*
-     * 
-     */
-    private int port;
+    private IContext context;
 
     /**
      * 
      * @param host
      * @param port
      */
-    public NIOClient(String host, int port) {
+    public NIOClient(IContext context, String host, int port) {
+        this.context = context;
         this.host = host;
         this.port = port;
     }
@@ -43,11 +49,11 @@ public class NIOClient implements IOLifecycle {
      */
     public void start() {
         if (isRunning.compareAndSet(false, true)) {
-            clientHandle = new NIOClientHandle(host, port);
+            clientHandle = new NIOClientHandle(context, host, port);
             new Thread(clientHandle, "nio Client").start();
         }
     }
-    
+
     public void stop() {
         if (isRunning.compareAndSet(true, false)) {
             if (clientHandle != null) {
@@ -63,14 +69,7 @@ public class NIOClient implements IOLifecycle {
      * @return
      * @throws Exception
      */
-    public boolean sendMsg(String msg) throws Exception {
-        if (msg.equals("q")) {
-            return false;
-        }
-        if (isRunning.get()) {
-            clientHandle.sendMsg(msg);
-            return true;
-        }
-        return false;
+    public void sendMsg(String msg) {
+        clientHandle.sendMsg(msg);
     }
 }
