@@ -6,11 +6,8 @@
 
 package com.ljj.io.server.impl;
 
-import java.io.UnsupportedEncodingException;
-
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
 
 import com.ljj.io.server.IServerAcceptHandler;
 
@@ -40,8 +37,7 @@ public class ServerAcceptHandlerImpl implements IServerAcceptHandler {
             String str = new String(b, "utf-8");
             System.out.println("接收的数据：" + str);
             return String.valueOf(jse.eval(str));
-        } catch (UnsupportedEncodingException | ScriptException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
             return EXPRESSION_ERROR;
         }
     }

@@ -12,7 +12,6 @@ import com.ljj.io.client.IClientTest;
  */
 public class BIOClientTest extends AbstractIOClientTest {
 
-
     /**
      * 
      */
