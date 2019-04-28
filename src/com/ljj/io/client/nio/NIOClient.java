@@ -19,7 +19,7 @@ public class NIOClient implements IClient {
     /*
      * 
      */
-    private NIOClientHandle clientHandle;
+    private NIOClientHandler clientHandle;
 
     /*
      * 
@@ -49,7 +49,7 @@ public class NIOClient implements IClient {
      */
     public void start() {
         if (isRunning.compareAndSet(false, true)) {
-            clientHandle = new NIOClientHandle(context, host, port);
+            clientHandle = new NIOClientHandler(context, host, port);
             new Thread(clientHandle, "nio Client").start();
         }
     }

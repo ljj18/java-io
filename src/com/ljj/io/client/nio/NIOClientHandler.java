@@ -20,7 +20,7 @@ import com.ljj.io.server.IOServerLifecycle;
  * @author liangjinjing
  * @version 1.0
  */
-public class NIOClientHandle implements IOServerLifecycle, Runnable {
+public class NIOClientHandler implements IOServerLifecycle, Runnable {
     
     
     private static final int DEFAULT_BUFFER_SIZE = 1024 * 4;
@@ -68,7 +68,7 @@ public class NIOClientHandle implements IOServerLifecycle, Runnable {
      * @param ip
      * @param port
      */
-    public NIOClientHandle(IClientContext context, String ip, int port) {
+    public NIOClientHandler(IClientContext context, String ip, int port) {
         
         this.context = context;
         this.host = ip;
