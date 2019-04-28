@@ -1,0 +1,49 @@
+/**
+ * 文件名称:          		AcceptHandlerImpl.java
+ * 版权所有@ 2019-2020 	无锡爱超信息技术有限公司，保留所有权利
+ * 编译器:           		JDK1.8
+ */
+
+package com.ljj.io.server.impl;
+
+import java.io.UnsupportedEncodingException;
+
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
+
+import com.ljj.io.server.IServerAcceptHandler;
+
+/**
+ * TODO: 文件注释
+ * 
+ * Version 1.0.0
+ * 
+ * @author liangjinjing
+ * 
+ * Date 2019-04-28 15:54
+ * 
+ */
+public class ServerAcceptHandlerImpl implements IServerAcceptHandler {
+
+    private final static ScriptEngine jse = new ScriptEngineManager().getEngineByName("JavaScript");
+    //
+    private final static String EXPRESSION_ERROR = "表达式不合法!!!";
+
+    @Override
+    public String onAccept(byte[] b) {
+        if (b == null || b.length == 0) {
+            System.out.println("接收的数据：空串");
+            return EXPRESSION_ERROR;
+        }
+        try {
+            String str = new String(b, "utf-8");
+            System.out.println("接收的数据：" + str);
+            return String.valueOf(jse.eval(str));
+        } catch (UnsupportedEncodingException | ScriptException e) {
+            e.printStackTrace();
+            return EXPRESSION_ERROR;
+        }
+    }
+
+}

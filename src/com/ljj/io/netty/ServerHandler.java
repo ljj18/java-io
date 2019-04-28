@@ -1,13 +1,11 @@
 package com.ljj.io.netty;
 
+import java.io.UnsupportedEncodingException;
+
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-
-import java.io.UnsupportedEncodingException;
-
-import com.ljj.io.utils.Calculator;
 
 /**
  * Handles a server-side channel.
@@ -27,7 +25,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 		System.out.println("收到客户端消息:"+body);
 		String calrResult = null;
 		try{
-			calrResult = Calculator.Instance.cal(body).toString();
+			//calrResult = Calculator.Instance.cal(body).toString();
 		}catch(Exception e){
 			calrResult = "错误的表达式：" + e.getMessage();
 		}

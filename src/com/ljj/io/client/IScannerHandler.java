@@ -1,0 +1,26 @@
+/**
+ * 文件名称:          		IScannerCallback.java
+ * 版权所有@ 2019-2020 	无锡爱超信息技术有限公司，保留所有权利
+ * 编译器:           		JDK1.8
+ */
+
+package com.ljj.io.client;
+
+/**
+ * 
+ * 
+ * Version		1.0.0      
+ * 
+ * @author		liangjinjing
+ * 
+ * Date			2019-04-26 15:54
+ * 
+ */
+public interface IScannerHandler {
+
+    /**
+     * 输入的字符
+     * @param msg
+     */
+    void onScannerMessage(String msg);
+}
