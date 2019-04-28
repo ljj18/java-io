@@ -21,7 +21,7 @@ import com.ljj.io.server.IServerContext;
  * @author liangjinjing
  * @version 1.0
  */
-public class NIOServerHandle implements IOServerLifecycle, Runnable {
+public class NIOServerHandler implements IOServerLifecycle, Runnable {
 
     private static final int DEFAULT_BUFFER_SIZE = 1024 * 4;
     /*
@@ -59,7 +59,7 @@ public class NIOServerHandle implements IOServerLifecycle, Runnable {
      * 
      * @param port
      */
-    public NIOServerHandle(IServerContext context, int port) {
+    public NIOServerHandler(IServerContext context, int port) {
         try {
             this.context = context;
             selector = Selector.open();

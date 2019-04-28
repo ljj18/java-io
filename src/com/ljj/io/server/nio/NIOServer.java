@@ -18,7 +18,7 @@ public class NIOServer implements IServer {
     /*
      * 
      */
-    private NIOServerHandle nioServerHandle;
+    private NIOServerHandler nioServerHandle;
     /*
      * 
      */
@@ -39,7 +39,7 @@ public class NIOServer implements IServer {
      */
     public void start() {        
         if (isRunning.compareAndSet(false, true)) {
-            nioServerHandle = new NIOServerHandle(context, port);
+            nioServerHandle = new NIOServerHandler(context, port);
             new Thread(nioServerHandle, "NIO Server").start();
         }
     }
