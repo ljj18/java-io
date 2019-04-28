@@ -1,7 +1,7 @@
 /**
- * 文件名称:          		AbstractTest.java
- * 版权所有@ 2019-2020 	无锡爱超信息技术有限公司，保留所有权利
- * 编译器:           		JDK1.8
+ * 鏂囦欢鍚嶇О:          		AbstractTest.java
+ * 鐗堟潈鎵�鏈堾 2019-2020 	鏃犻敗鐖辫秴淇℃伅鎶�鏈湁闄愬叕鍙革紝淇濈暀鎵�鏈夋潈鍒�
+ * 缂栬瘧鍣�:           		JDK1.8
  */
 
 package com.ljj.io.client;
@@ -9,7 +9,7 @@ package com.ljj.io.client;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * TODO: 文件注释
+ * TODO: 鏂囦欢娉ㄩ噴
  * 
  * Version 1.0.0
  * 
@@ -27,7 +27,7 @@ public abstract class AbstractIOClientTest implements IClientTest {
     /*
      * 
      */
-    public static final String DEFAULT_HOST = "127.0.0.1";
+    public static final String DEFAULT_HOST = "10.108.3.46";
     
     
     /*
@@ -45,7 +45,7 @@ public abstract class AbstractIOClientTest implements IClientTest {
     private AtomicBoolean isRunning = new AtomicBoolean(false);
 
     /**
-     * 启动客户端
+     * 鍚姩瀹㈡埛绔�
      */
     public abstract void startClient();
 
@@ -53,7 +53,7 @@ public abstract class AbstractIOClientTest implements IClientTest {
      * 
      */
     public AbstractIOClientTest() {
-        // 添加程序退出钩子
+        // 娣诲姞绋嬪簭閫�鍑洪挬瀛�
         Runtime.getRuntime().addShutdownHook(new Thread(() -> stop()));
     }
 
@@ -62,7 +62,7 @@ public abstract class AbstractIOClientTest implements IClientTest {
      */
     public void start() {
         if (isRunning.compareAndSet(false, true)) {
-            // 启动客户端
+            // 鍚姩瀹㈡埛绔�
             startClient();
             //
             startScanner();
