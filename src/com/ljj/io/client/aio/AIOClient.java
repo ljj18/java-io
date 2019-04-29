@@ -23,7 +23,7 @@ public class AIOClient implements IClient {
     /*
      * 
      */
-    private AIOAsyncClientHandler clientHandle;
+    private AIOClientHandler clientHandle;
     /*
      * 
      */
@@ -44,7 +44,7 @@ public class AIOClient implements IClient {
     @Override
     public void start() {
         if (isRunning.compareAndSet(false, true)) {
-            clientHandle = new AIOAsyncClientHandler(context, host, port);
+            clientHandle = new AIOClientHandler(context, host, port);
             new Thread(clientHandle, "AIO Client-1").start();
         }
     }

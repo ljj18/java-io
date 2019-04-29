@@ -46,7 +46,7 @@ public class BIOServerHandler implements Runnable {
                 if ((msg = in.readLine()) == null) {
                     break;
                 }
-                out.println(context.getAcceptHandler().onAccept(msg.getBytes("utf-8")));
+                out.println(context.getAcceptHandler().onAcceptByString(msg));
             }
         } catch (Exception e) {
             e.printStackTrace();

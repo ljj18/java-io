@@ -34,12 +34,28 @@ public class ServerAcceptHandlerImpl implements IServerAcceptHandler {
             return EXPRESSION_ERROR;
         }
         try {
-            String str = new String(b, "utf-8");
+            return onAcceptByString(new String(b, "utf-8"));
+        } catch (Exception e) {
+            return EXPRESSION_ERROR;
+        }
+    }
+
+    
+    /**
+     * 
+     * @param str
+     * @return
+     */
+    public String onAcceptByString(String str) {
+        if (str == null || str.length() == 0) {
+            System.out.println("接收的数据：空串");
+            return EXPRESSION_ERROR;
+        }
+        try {
             System.out.println("接收的数据：" + str);
             return String.valueOf(jse.eval(str));
         } catch (Exception e) {
             return EXPRESSION_ERROR;
         }
     }
-
 }

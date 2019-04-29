@@ -23,4 +23,11 @@ public interface IServerAcceptHandler {
      * @param b
      */
     String onAccept(byte[] b);
+    
+    /**
+     * 
+     * @param str
+     * @return
+     */
+    String onAcceptByString(String str);
 }

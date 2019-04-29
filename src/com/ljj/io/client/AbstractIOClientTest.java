@@ -85,7 +85,7 @@ public abstract class AbstractIOClientTest implements IClientTest {
     /**
      * 
      */
-    public IAcceptHandler getAcceptHandler() {
+    public IClientAcceptHandler getAcceptHandler() {
        return ioScanner;
     }
 

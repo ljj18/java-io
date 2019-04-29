@@ -26,7 +26,7 @@ public class AIOServer implements IServer {
     /*
      * 
      */
-    private AIOAsyncServerHandler serverHandle;
+    private AIOServerHandler serverHandle;
     /*
      * 
      */
@@ -45,7 +45,7 @@ public class AIOServer implements IServer {
     @Override
     public void start() {
         if (isRunning.compareAndSet(false, true)) {
-            serverHandle = new AIOAsyncServerHandler(context, port);
+            serverHandle = new AIOServerHandler(context, port);
             new Thread(serverHandle, "AIO Server-1").start();
         }
     }

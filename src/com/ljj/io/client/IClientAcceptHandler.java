@@ -16,11 +16,16 @@ package com.ljj.io.client;
  * Date			2019-04-28 14:29
  * 
  */
-public interface IAcceptHandler {
+public interface IClientAcceptHandler {
     
     /**
      * 接收的数据
      * @param t
      */
     boolean onAccept(byte[] b);
+    
+    /**
+     * 
+     */
+    boolean onAcceptByString(String str);
 }

@@ -10,7 +10,7 @@ import com.ljj.io.server.IServerTest;
  * @author liangjinjing
  * @version 1.0
  */
-public class NIOTest extends AbstractIOServerTest {
+public class NIOServerTest extends AbstractIOServerTest {
     
     
     @Override
@@ -25,7 +25,7 @@ public class NIOTest extends AbstractIOServerTest {
      * @throws Exception
      */
     public static void main(String[] args) throws Exception {
-        IServerTest nioTest = new NIOTest();
+        IServerTest nioTest = new NIOServerTest();
         nioTest.start();
     }
 }

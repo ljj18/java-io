@@ -21,7 +21,7 @@ import com.ljj.io.server.IOServerLifecycle;
  * Date 2019-04-26 14:55
  * 
  */
-public class ClientScanner implements IOServerLifecycle, IAcceptHandler {
+public class ClientScanner implements IOServerLifecycle, IClientAcceptHandler {
 
     /*
      * 
@@ -78,7 +78,16 @@ public class ClientScanner implements IOServerLifecycle, IAcceptHandler {
 
     @Override
     public boolean onAccept(byte[] b) {
-        System.out.println("计算结果：" + new String(b));
+        return onAcceptByString(new String(b));
+    }
+    
+    /**
+     * 
+     * 
+     */
+    @Override
+    public boolean onAcceptByString(String s) {
+        System.out.println("计算结果：" + s);
         System.out.println();
         System.out.print("请输入表达式：");
         return true;

@@ -22,6 +22,6 @@ public interface IClientContext {
      * 
      * @return
      */
-    IAcceptHandler getAcceptHandler();
+    IClientAcceptHandler getAcceptHandler();
 
 }
