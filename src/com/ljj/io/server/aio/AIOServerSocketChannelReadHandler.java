@@ -7,8 +7,6 @@
 package com.ljj.io.server.aio;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousSocketChannel;
 import java.nio.channels.CompletionHandler;
@@ -48,7 +46,8 @@ public class AIOServerSocketChannelReadHandler implements CompletionHandler<Inte
      * 
      * @param socketChannel
      */
-    public AIOServerSocketChannelReadHandler(AsynchronousSocketChannel socketChannel, IAIOServerHandler serverHandler, ByteBuffer readBuffer) {
+    public AIOServerSocketChannelReadHandler(AsynchronousSocketChannel socketChannel, IAIOServerHandler serverHandler,
+        ByteBuffer readBuffer) {
         this.socketChannel = socketChannel;
         this.readBuffer = readBuffer;
         this.serverHandler = serverHandler;
@@ -65,7 +64,6 @@ public class AIOServerSocketChannelReadHandler implements CompletionHandler<Inte
             }
             return;
         }
-
         /*
          * 实际上，由于我们从Integer result知道了本次channel从操作系统获取数据总长度 所以实际上，我们不需要切换成“读模式”的，但是为了保证编码的规范性，还是建议进行切换。
          * 
@@ -73,40 +71,19 @@ public class AIOServerSocketChannelReadHandler implements CompletionHandler<Inte
          * AIO框架已经帮我们做了处理（做成了多次通知）
          */
         readBuffer.flip();
-        byte[] contexts = new byte[1024];
-        readBuffer.get(contexts, 0, result);
-        readBuffer.clear();
+        byte[] contexts = new byte[result];
+        readBuffer.get(result);
         try {
-            String nowContent = new String(contexts, 0, result, "UTF-8");
-            stringBuffer.append(nowContent);
-        } catch (UnsupportedEncodingException e) {
+            String str = serverHandler.getContext().getAcceptHandler().onAccept(contexts);
+            ByteBuffer sendBuffer = ByteBuffer.wrap(str.getBytes());
+            socketChannel.write(sendBuffer);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        // 如果条件成立，说明还没有接收到“结束标记”
-        if (stringBuffer.indexOf("over") == -1) {
-            return;
-        } else {
-            // 清空已经读取的缓存，并从新切换为写状态(这里要注意clear()和capacity()两个方法的区别)
-            readBuffer.clear();
-            // ======================================================
-            // 当然接受完成后，可以在这里正式处理业务了
-            // ======================================================
-            String str = serverHandler.getContext().getAcceptHandler().onAcceptByString(stringBuffer.toString());
-            // 回发数据，并关闭channel
-            ByteBuffer sendBuffer = null;
-            try {
-                sendBuffer = ByteBuffer.wrap(URLEncoder.encode(str, "UTF-8").getBytes());
-                socketChannel.write(sendBuffer);
-                socketChannel.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        // 
         stringBuffer = new StringBuffer();
+        readBuffer.clear();
         // 还要继续监听（一次监听一次通知）
         socketChannel.read(readBuffer, stringBuffer, this);
-
     }
 
     @Override
