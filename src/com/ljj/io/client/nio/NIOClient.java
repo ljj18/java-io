@@ -19,7 +19,7 @@ public class NIOClient implements IClient {
     /*
      * 
      */
-    private NIOClientHandler clientHandle;
+    private NIOClientHandler clientHandler;
 
     /*
      * 
@@ -49,16 +49,16 @@ public class NIOClient implements IClient {
      */
     public void start() {
         if (isRunning.compareAndSet(false, true)) {
-            clientHandle = new NIOClientHandler(context, host, port);
-            new Thread(clientHandle, "nio Client").start();
+            clientHandler = new NIOClientHandler(context, host, port);
+            new Thread(clientHandler, "nio Client").start();
         }
     }
 
     public void stop() {
         if (isRunning.compareAndSet(true, false)) {
-            if (clientHandle != null) {
-                clientHandle.stop();
-                clientHandle = null;
+            if (clientHandler != null) {
+                clientHandler.stop();
+                clientHandler = null;
             }
         }
     }
@@ -70,6 +70,6 @@ public class NIOClient implements IClient {
      * @throws Exception
      */
     public void sendMsg(String msg) {
-        clientHandle.sendMsg(msg);
+        clientHandler.sendMsg(msg);
     }
 }

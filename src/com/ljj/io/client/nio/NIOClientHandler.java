@@ -12,7 +12,7 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.ljj.io.client.IClientContext;
-import com.ljj.io.server.IOServerLifecycle;
+import com.ljj.io.client.IOClientLifecycle;
 
 /**
  * NIO客户端
@@ -20,7 +20,7 @@ import com.ljj.io.server.IOServerLifecycle;
  * @author liangjinjing
  * @version 1.0
  */
-public class NIOClientHandler implements IOServerLifecycle, Runnable {
+public class NIOClientHandler implements IOClientLifecycle, Runnable {
     
     
     private static final int DEFAULT_BUFFER_SIZE = 1024 * 4;

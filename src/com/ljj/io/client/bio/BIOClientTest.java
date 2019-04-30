@@ -26,7 +26,7 @@ public class BIOClientTest extends AbstractIOClientTest {
      * @throws InterruptedException
      */
     public static void main(String[] args) {
-        IClientTest bioTest = new BIOClientTest();
-        bioTest.start();
+        IClientTest test = new BIOClientTest();
+        test.start();
     }
 }

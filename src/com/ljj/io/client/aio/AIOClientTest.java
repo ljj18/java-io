@@ -2,6 +2,7 @@
 package com.ljj.io.client.aio;
 
 import com.ljj.io.client.AbstractIOClientTest;
+import com.ljj.io.client.IClientTest;
 
 /**
  * 测试方法
@@ -19,8 +20,8 @@ public class AIOClientTest extends AbstractIOClientTest {
     }
     
     public static void main(String[] args) throws Exception {
-        AIOClientTest aioTest = new AIOClientTest();
-        aioTest.start();
+        IClientTest test = new AIOClientTest();
+        test.start();
     }
 
 }
